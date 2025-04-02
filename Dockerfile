@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy source code
-COPY ../nta/frontend .
+COPY . .
 
 # Expose port
 EXPOSE 3000
@@ -27,7 +27,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY ../nta/frontend .
+COPY . .
 
 RUN npm run build
 
