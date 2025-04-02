@@ -1,4 +1,4 @@
-FROM node:16-alpine as development
+FROM node:16-alpine as build
 
 # Set working directory
 WORKDIR /app
@@ -12,27 +12,11 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Expose port
-EXPOSE 3000
-
-# Start the app in development mode
-CMD ["npm", "start"]
-
-# Production build stage
-FROM node:16-alpine as build
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
+# Build the app
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine as production
+# Production stage with Nginx
+FROM nginx:alpine
 
 # Copy built assets from the build stage
 COPY --from=build /app/build /usr/share/nginx/html
